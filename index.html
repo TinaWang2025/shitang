@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食堂评价系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>食堂评价系统</h1>
+            <p>请为今天的菜品和厨师服务进行评价</p>
+        </header>
+
+        <main>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="food">菜品评价</button>
+                <button class="tab-btn" data-tab="chef">厨师评价</button>
+            </div>
+
+            <!-- 菜品评价表单 -->
+            <div class="tab-content active" id="food-tab">
+                <div class="items-container" id="food-items">
+                    <!-- 菜品列表将通过JavaScript动态加载 -->
+                    <div class="loading">加载菜品中...</div>
+                </div>
+            </div>
+
+            <!-- 厨师评价表单 -->
+            <div class="tab-content" id="chef-tab">
+                <div class="items-container" id="chef-items">
+                    <!-- 厨师列表将通过JavaScript动态加载 -->
+                    <div class="loading">加载厨师列表中...</div>
+                </div>
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="submit-container">
+                <button id="submit-btn">提交评价</button>
+            </div>
+
+            <!-- 评价成功弹窗 -->
+            <div class="modal" id="success-modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>评价提交成功！</h2>
+                    <p>感谢您的反馈，我们会继续努力提升食堂服务质量。</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>2025天佑京铁工程建设公司食堂评价系统</p>
+        </footer>
+    </div>
+
+    <!-- 菜品评分项模板 -->
+    <template id="food-item-template">
+        <div class="item" data-id="">
+            <div class="item-image">
+                <img src="" alt="">
+            </div>
+            <div class="item-info">
+                <h3 class="item-name"></h3>
+                <div class="rating-container">
+                    <div class="rating-label">口味评分：</div>
+                    <div class="rating" data-type="taste">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <div class="rating-container">
+                    <div class="rating-label">外观评分：</div>
+                    <div class="rating" data-type="appearance">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 厨师评分项模板 -->
+    <template id="chef-item-template">
+        <div class="item" data-id="">
+            <div class="item-image">
+                <img src="" alt="">
+            </div>
+            <div class="item-info">
+                <h3 class="item-name"></h3>
+                <div class="rating-container">
+                    <div class="rating-label">服务态度：</div>
+                    <div class="rating" data-type="service">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <div class="rating-container">
+                    <div class="rating-label">专业技能：</div>
+                    <div class="rating" data-type="skill">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食堂评价系统 - 管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+    <div class="container">
+        <header>
+            <h1>食堂评价系统 - 管理后台</h1>
+        </header>
+
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="#" class="nav-link active" data-page="dashboard">数据统计</a></li>
+                <li><a href="#" class="nav-link" data-page="food">菜品管理</a></li>
+                <li><a href="#" class="nav-link" data-page="chef">厨师管理</a></li>
+                <li><a href="#" class="nav-link" data-page="export">数据导出</a></li>
+                <li><a href="#" class="nav-link" data-page="settings">系统设置</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- 数据统计页面 -->
+            <div class="admin-page-content active" id="dashboard-page">
+                <h2>数据统计</h2>
+                
+                <div class="time-filter">
+                    <button class="time-btn active" data-time="day">每日</button>
+                    <button class="time-btn" data-time="week">每周</button>
+                    <button class="time-btn" data-time="month">每月</button>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stats-card">
+                        <h3>评价总数</h3>
+                        <div class="stats-value" id="total-ratings">0</div>
+                    </div>
+                    <div class="stats-card">
+                        <h3>平均评分</h3>
+                        <div class="stats-value" id="average-rating">0.0</div>
+                    </div>
+                    <div class="stats-card">
+                        <h3>最高评分菜品</h3>
+                        <div class="stats-value" id="top-food">暂无数据</div>
+                    </div>
+                    <div class="stats-card">
+                        <h3>最高评分厨师</h3>
+                        <div class="stats-value" id="top-chef">暂无数据</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart">
+                        <h3>评分趋势</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>评分趋势图将在这里显示</p>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <h3>菜品排行</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>菜品排行图将在这里显示</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 菜品管理页面 -->
+            <div class="admin-page-content" id="food-page">
+                <h2>菜品管理</h2>
+                <button class="add-btn" id="add-food-btn">
+                    <i class="fas fa-plus"></i> 添加菜品
+                </button>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="food-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>图片</th>
+                                <th>名称</th>
+                                <th>平均评分</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 菜品列表将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 厨师管理页面 -->
+            <div class="admin-page-content" id="chef-page">
+                <h2>厨师管理</h2>
+                <button class="add-btn" id="add-chef-btn">
+                    <i class="fas fa-plus"></i> 添加厨师
+                </button>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="chef-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>照片</th>
+                                <th>姓名</th>
+                                <th>平均评分</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 厨师列表将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 数据导出页面 -->
+            <div class="admin-page-content" id="export-page">
+                <h2>数据导出</h2>
+                
+                <div class="export-form">
+                    <div class="form-group">
+                        <label for="export-type">导出内容：</label>
+                        <select id="export-type">
+                            <option value="all">所有数据</option>
+                            <option value="food">菜品评价</option>
+                            <option value="chef">厨师评价</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="export-time">时间范围：</label>
+                        <select id="export-time">
+                            <option value="today">今日</option>
+                            <option value="week">本周</option>
+                            <option value="month">本月</option>
+                            <option value="all">全部</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="export-format">导出格式：</label>
+                        <select id="export-format">
+                            <option value="excel">Excel (.xlsx)</option>
+                            <option value="csv">CSV (.csv)</option>
+                            <option value="pdf">PDF (.pdf)</option>
+                        </select>
+                    </div>
+                    
+                    <button class="export-btn" id="export-btn">导出数据</button>
+                </div>
+            </div>
+
+            <!-- 系统设置页面 -->
+            <div class="admin-page-content" id="settings-page">
+                <h2>系统设置</h2>
+                
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label for="system-name">系统名称：</label>
+                        <input type="text" id="system-name" value="食堂评价系统">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="footer-text">页脚文字：</label>
+                        <input type="text" id="footer-text" value="2025天佑京铁工程建设公司食堂评价系统">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="data-reset">数据重置周期：</label>
+                        <select id="data-reset">
+                            <option value="never">从不重置</option>
+                            <option value="daily">每天</option>
+                            <option value="weekly">每周</option>
+                            <option value="monthly">每月</option>
+                        </select>
+                    </div>
+                    
+                    <button class="save-btn" id="save-settings-btn">保存设置</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>2025天佑京铁工程建设公司食堂评价系统</p>
+        </footer>
+    </div>
+
+    <!-- 添加/编辑菜品弹窗 -->
+    <div class="modal" id="food-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="food-modal-title">添加菜品</h2>
+            
+            <form id="food-form">
+                <input type="hidden" id="food-id">
+                
+                <div class="form-group">
+                    <label for="food-name">菜品名称：</label>
+                    <input type="text" id="food-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="food-image">菜品图片：</label>
+                    <input type="file" id="food-image" accept="image/*">
+                    <div class="image-preview" id="food-image-preview"></div>
+                </div>
+                
+                <button type="submit" class="save-btn">保存</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 添加/编辑厨师弹窗 -->
+    <div class="modal" id="chef-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="chef-modal-title">添加厨师</h2>
+            
+            <form id="chef-form">
+                <input type="hidden" id="chef-id">
+                
+                <div class="form-group">
+                    <label for="chef-name">厨师姓名：</label>
+                    <input type="text" id="chef-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="chef-image">厨师照片：</label>
+                    <input type="file" id="chef-image" accept="image/*">
+                    <div class="image-preview" id="chef-image-preview"></div>
+                </div>
+                
+                <button type="submit" class="save-btn">保存</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html> 

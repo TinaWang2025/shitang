@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食堂评价系统 - 二维码生成</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="qrcode-page">
+    <div class="container">
+        <header>
+            <h1>食堂评价系统 - 二维码生成</h1>
+            <p>生成用于食堂评价的二维码</p>
+        </header>
+
+        <main>
+            <div class="qrcode-form">
+                <div class="form-group">
+                    <label for="base-url">基础URL：</label>
+                    <input type="text" id="base-url" placeholder="输入网站URL">
+                    <p class="help-text">例如: https://yourdomain.com/canteen-rating/</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="target-page">目标页面：</label>
+                    <select id="target-page">
+                        <option value="index.html">评价页面 (index.html)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="qr-size">二维码尺寸：</label>
+                    <select id="qr-size">
+                        <option value="128">小 (128x128)</option>
+                        <option value="256" selected>中 (256x256)</option>
+                        <option value="512">大 (512x512)</option>
+                    </select>
+                </div>
+                
+                <button id="generate-btn">生成二维码</button>
+            </div>
+            
+            <div class="qrcode-result">
+                <div id="qrcode-container">
+                    <div class="placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>生成的二维码将显示在这里</p>
+                    </div>
+                </div>
+                
+                <div class="qrcode-actions">
+                    <button id="download-btn" disabled>
+                        <i class="fas fa-download"></i> 下载二维码
+                    </button>
+                    <button id="print-btn" disabled>
+                        <i class="fas fa-print"></i> 打印二维码
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>2025天佑京铁工程建设公司食堂评价系统</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取当前URL作为默认值
+            const currentUrl = window.location.href.split('/').slice(0, -1).join('/') + '/';
+            document.getElementById('base-url').value = currentUrl;
+
+            // 生成二维码按钮点击事件
+            document.getElementById('generate-btn').addEventListener('click', generateQRCode);
+
+            // 下载二维码按钮点击事件
+            document.getElementById('download-btn').addEventListener('click', downloadQRCode);
+
+            // 打印二维码按钮点击事件
+            document.getElementById('print-btn').addEventListener('click', printQRCode);
+
+            // 生成二维码函数
+            function generateQRCode() {
+                const baseUrl = document.getElementById('base-url').value.trim();
+                const targetPage = document.getElementById('target-page').value;
+                const size = parseInt(document.getElementById('qr-size').value);
+                
+                // 验证URL格式
+                if (!baseUrl) {
+                    alert('请输入有效的URL');
+                    return;
+                }
+                
+                const fullUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + targetPage;
+                
+                // 清空容器
+                const container = document.getElementById('qrcode-container');
+                container.innerHTML = '';
+                
+                // 创建二维码
+                new QRCode(container, {
+                    text: fullUrl,
+                    width: size,
+                    height: size,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                
+                // 启用下载和打印按钮
+                document.getElementById('download-btn').disabled = false;
+                document.getElementById('print-btn').disabled = false;
+            }
+
+            // 下载二维码函数
+            function downloadQRCode() {
+                const canvas = document.querySelector('#qrcode-container canvas');
+                if (!canvas) {
+                    alert('请先生成二维码');
+                    return;
+                }
+                
+                const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = '食堂评价系统二维码.png';
+                link.click();
+            }
+
+            // 打印二维码函数
+            function printQRCode() {
+                const canvas = document.querySelector('#qrcode-container canvas');
+                if (!canvas) {
+                    alert('请先生成二维码');
+                    return;
+                }
+                
+                const dataUrl = canvas.toDataURL();
+                
+                const windowContent = '<!DOCTYPE html>' +
+                    '<html>' +
+                    '<head><title>打印二维码</title></head>' +
+                    '<body>' +
+                    '<div style="text-align:center;">' +
+                    '<h2>食堂评价系统</h2>' +
+                    '<p>扫描下方二维码进行评价</p>' +
+                    '<img src="' + dataUrl + '">' +
+                    '<p>2025天佑京铁工程建设公司食堂评价系统</p>' +
+                    '</div>' +
+                    '</body>' +
+                    '</html>';
+                
+                const printWindow = window.open('', '', 'height=600,width=800');
+                printWindow.document.write(windowContent);
+                printWindow.document.close();
+                printWindow.focus();
+                
+                // 等待图片加载完成后打印
+                printWindow.onload = function() {
+                    printWindow.print();
+                    printWindow.close();
+                };
+            }
+        });
+    </script>
+</body>
+</html> 
